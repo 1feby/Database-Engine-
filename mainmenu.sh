@@ -1,4 +1,5 @@
 #!/bin/bash
+clear
 echo "choose what you want to do " 
 select opt in "Create Database 1" "List Database 2" "Connect To Database 3" "Drop Database " "Exit 5"
 do

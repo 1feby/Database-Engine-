@@ -8,11 +8,11 @@ else
 fi 
 echo please Enter the name of Data base 
 read DBName
-while [ -f ~/DBData/$DBName ]
+while [ -d ~/DBData/$DBName ]
 do	
 echo the name of Database is ready exist
 echo please enter the database 
 read DBName
 done
-touch ~/DBData/$DBName
+mkdir ~/DBData/$DBName
  

@@ -1,6 +1,6 @@
 #!/usr/bin/bash
-typeset -i primColNum
-primColNum=0;exist=0;valid=0
+typeset -i ColNum
+ColNum=1;exist=0;valid=0
 echo please Enter your table name 
 read TableName
 if [[ -f ~/DBData/$1/$TableName ]]
@@ -11,14 +11,14 @@ echo there is no table has name $TableName
 fi
 for colNam in ${colNameArr[@]}
 do 
+	DataType=$(sed -n '2p' ~/DBData/$1/$TableName | cut -d '|' -f $ColNum)
 	valid=0;
 	while [[ $valid -eq 0 ]]
 	do
    if [[ "$colNam" == "*"* ]]
    then
-   primaryCol=$(awk '-F|' '{if(NR>1) print $($primColNum+1)}' ~/DBData/$1/$TableName)
-     
-     
+   #primaryCol=$(awk '-F|' '{if(NR>1) print $($ColNum)}' ~/DBData/$1/$TableName)
+    primaryCol=$(cut -d '|' -f $ColNum ~/DBData/$1/$TableName | awk  '{if(NR>2) print $0}' ) 
 	  echo Enter the value for $colNam as primary key | sed 's/*//'                   
            read colData
        if [[ -z $colData ]]
@@ -33,7 +33,16 @@ do
            fi
            done
        if [[ $exist -eq 0 ]]
-           then           valid=1
+          then 
+     if [[ "$DataType" == "int" ]]
+        then
+         if [[ $colData =~ ^[+-]?[0-9]+$ ]]
+        then valid=1;
+       else echo the dataType of this column is int so try again
+         fi
+ else valid=1;
+        fi
+
    else echo "this value is added before"
          exist=0 	   
           fi
@@ -43,14 +52,24 @@ do
     echo Enter the value of column $colNam
      read colData
      if [[ -z $colData ]]
-     then colData="Null"
+      then colData="Null"
 	 valid=1    
-	else  
-	valid=1	
-     fi     
+	else
+	
+	if [[ "$DataType" == "int" ]]
+	then	
+	       if [[ $colData =~ ^[+-]?[0-9]+$ ]]
+	then valid=1;
+       else echo the dataType of this column is int so try again
+         fi
+ else valid=1;
+	fi	
+    fi     
    fi
 done   
 printf "$colData|" >> ~/DBData/$1/$TableName
-primColNum=$((primColNum + 1))
+ColNum=$((ColNum + 1))
  
 done
+echo >> ~/DBData/$1/$TableName
+

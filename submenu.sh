@@ -12,7 +12,7 @@ case $opt in
 "|      Delete From Table 6   |")source deleteTable.sh ;;
 "|      Update Table 7        |")source updateTable.sh ;;
 "|      Exit 8                |") exit ;;
-"*----------------------------*")echo "Not Valid Chooice" ;;
-*) echo "Not Valid Chooice" ;;
+"*----------------------------*")echo -e "\e[31mNot Valid Chooice\e[0m" ;;
+*) echo -e "\e[31mNot Valid Chooice\e[0m" ;;
 esac
 done

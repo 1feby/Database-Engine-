@@ -3,18 +3,18 @@ echo enter the database name you want to delete
 read name
 if [[ $name == "" ]]
 then
-echo "You didn't enter the name please try again "
+echo -e "\e[31mYou didn't enter the name please try again\e[0m "
 else
 if [ ! -d ~/DBData/$name ]
 then
-echo "there is no database called $name"
+echo -e "\e[31mthere is no database called $name\e[0m"
 else
-echo "are you sure you want to delete the DB(y/n)?"
+echo -e "\e[34mare you sure you want to delete the DB(y/n)?\e[0m"
 read answer
 if [[ $answer = [yY]* ]]
 then
 rm -r ~/DBData/$name
-echo "Done"
+echo -e "\e[32mDone\e[0m"
 fi
 fi
 fi

@@ -6,5 +6,5 @@ fi
 path=$(ls ~/DBData/$1)
 if [[ -z "$path" ]]
 then
-echo "there is no tables to list "
+echo -e "\e[31mthere is no tables to list\e[0m "
 fi

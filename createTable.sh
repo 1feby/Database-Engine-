@@ -5,22 +5,22 @@ echo "enter your table name plz"
 read name
 if [[ $name == "" ]]
 then
-echo "You didn't enter name please try again "
+echo -e "\e[31mYou didn't enter name please try again\e[0m "
 else
 if [[ -f ~/DBData/$1/$name ]]
 then
-echo "this table name alredy exist"
+echo -e "\e[31mthis table name alredy exist\e[0m"
 else
 touch ~/DBData/$1/$name
 touch ~/DBData/$1/$name+"p"
-echo "if you finished entering data press esc"
+echo -e "\e[1mif you finished entering data press esc\e[0m"
 while true;
 do
 echo "enter your coulmns name plz"
 read -a arr
 if [[ ${arr[@]} == "" ]]
 then
-echo "You didn't enter yor name please try again"
+echo -e "\e[31mYou didn't enter yor name please try again\e[0m"
 else
 if [[ ${arr[@]} = $'\033' ]]
 then
@@ -30,7 +30,7 @@ for i in ${arr[@]}
 do
 if grep -Fq "$i|" ~/DBData/$1/$name
 then
-echo "this coloumn is already exist"
+echo -e "\e[31mthis coloumn is already exist\e[0m"
 else
 COULMN 12 2>/dev/null
 select opt in "string 1" "int 2"
@@ -39,8 +39,7 @@ case $opt in
 #"string 1") printf "string|" >> ~/DBData/$1/$name+"p" ;break ;;
 "string 1") type="string|" ;break ;;
 "int 2") type="int|" ; break ;;
-#"int 2")  printf "int|" >> ~/DBData/$1/$name+"p"; break ;;
-*) echo "not valid choice" ;;
+*) echo -e "\e[31mnot valid choice\e[0m" ;;
 esac
 done
 if (( $pr == 0 ))
@@ -51,12 +50,11 @@ do
 case $op in
 "primary key 1" ) printf ""*"$i|" >> ~/DBData/$1/$name ;pr=1;break ;;
 "value 2") printf "$i|" >> ~/DBData/$1/$name ;break ;;
-*) echo "not valid"; break ;;
+*) echo -e "\e[31mnot valid\e[0m"; break ;;
 esac
 done
 else
 printf "$i|" >> ~/DBData/$1/$name
-#printf "$type" >> ~/DBData/$1/$name+"p"
 fi
 fi
 printf "$type" >> ~/DBData/$1/$name+"p"

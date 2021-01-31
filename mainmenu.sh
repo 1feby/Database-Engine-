@@ -1,8 +1,8 @@
 #!/bin/bash
 clear
-echo "           *welcome to DBEngine*                   "
-echo "          =====================                   "  
-echo "    *choose what you want to do* "
+echo -e "          *\e[5mwelcome to DBEngine\e[0m*                   "
+echo "          ======================                   "  
+echo -e "    *\e[1mchoose what you want to do\e[0m* "
 echo "   *----------------------------*"
 
 COLUMNS=12
@@ -15,9 +15,8 @@ case $opt in
 "|    Connect To Database 3   |")source connectDB.sh ;;
 "|    Drop Database 4         |")source drop.sh ;;
 "|    Exit 5                  |") exit;;
-"*----------------------------*") echo "Not Valid Choice";;
-
-*) echo "Not Valid Choice";;
+"*----------------------------*") echo -e "\e[31mNot Valid Choice\e[0m";;
+*) echo -e "\e[31mNot Valid Choice\e[0m";;
 esac
 done
 

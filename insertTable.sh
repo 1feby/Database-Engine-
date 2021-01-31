@@ -3,27 +3,29 @@ typeset -i ColNum
 ColNum=1;exist=0;valid=0
 echo please Enter your table name 
 read TableName
-if [[ -f ~/DBData/$1/$TableName ]]
+
+if [[  ! -f ~/DBData/$1/$TableName ]]
 then
-	colNameArr=$(sed -n '1p' ~/DBData/$1/$TableName | awk '-F|' '{for(i=1;i<NF;i++)  print $i }')
+	echo -e "\e[31mthere is no table has name $TableName\e[0m"
 else 
-echo there is no table has name $TableName
-fi
+colNameArr=$(sed -n '1p' ~/DBData/$1/$TableName | awk '-F|' '{for(i=1;i<NF;i++)  print $i }')
+
 for colNam in ${colNameArr[@]}
 do 
-	DataType=$(sed -n '2p' ~/DBData/$1/$TableName | cut -d '|' -f $ColNum)
+	DataType=$(sed -n '1p' ~/DBData/$1/$TableName+"p" | cut -d '|' -f $ColNum)
 	valid=0;
 	while [[ $valid -eq 0 ]]
 	do
    if [[ "$colNam" == "*"* ]]
    then
    #primaryCol=$(awk '-F|' '{if(NR>1) print $($ColNum)}' ~/DBData/$1/$TableName)
-    primaryCol=$(cut -d '|' -f $ColNum ~/DBData/$1/$TableName | awk  '{if(NR>2) print $0}' ) 
+    primaryCol=$(cut -d '|' -f $ColNum ~/DBData/$1/$TableName | awk  '{if(NR>1) print $0}' ) 
 	  echo Enter the value for $colNam as primary key | sed 's/*//'                   
            read colData
        if [[ -z $colData ]]
            then
-            echo "the primary can't be null "
+            echo -e "\e[31mthe primary can't be null\e[0m"
+            
     else
 	    for primVal in ${primaryCol[@]}
            do
@@ -38,12 +40,13 @@ do
         then
          if [[ $colData =~ ^[+-]?[0-9]+$ ]]
         then valid=1;
-       else echo the dataType of this column is int so try again
+       else echo -e "\e[31mthe dataType of this column is int so try again\e[0m"
+       
          fi
  else valid=1;
         fi
 
-   else echo "this value is added before"
+   else echo -e "\e[31mthis value is added before\e[0m"
          exist=0 	   
           fi
 
@@ -60,7 +63,8 @@ do
 	then	
 	       if [[ $colData =~ ^[+-]?[0-9]+$ ]]
 	then valid=1;
-       else echo the dataType of this column is int so try again
+       else echo -e "\e[31mthe dataType of this column is int so try again\e[0m"
+       
          fi
  else valid=1;
 	fi	
@@ -73,3 +77,4 @@ ColNum=$((ColNum + 1))
 done
 echo >> ~/DBData/$1/$TableName
 
+fi
